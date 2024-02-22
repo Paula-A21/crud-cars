@@ -1,17 +1,17 @@
-import { Model, DataTypes, InferCreationAttributes, InferAttributes } from 'sequelize';
+import { Model, DataTypes, InferCreationAttributes, InferAttributes, Sequelize } from 'sequelize';
 
 class CarsModel extends Model<InferAttributes<CarsModel>, InferCreationAttributes<CarsModel>> {
 
   declare id: number;
-  declare brand: number;
-  declare model: string;
-  declare year: number;
-  declare color: string;
+  declare carBrand: number;
+  declare carModel: string;
+  declare carYear: number;
+  declare carColor: string;
   declare airConditioner: boolean;
   declare manualOrAutomatic: string;
 }
 
-export const initializeCarsModel = (sequelizeInstance: any) => {
+export const initializeCarsModel = (sequelize: Sequelize): void => {
   
   CarsModel.init(
     {
@@ -20,19 +20,19 @@ export const initializeCarsModel = (sequelizeInstance: any) => {
         autoIncrement: true,
         primaryKey: true
       },
-      brand: {
+      carBrand: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      model: {
+      carModel: {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
-      year: {
+      carYear: {
         type: DataTypes.DATE,
         allowNull: false
       },
-      color: {
+      carColor: {
         type: DataTypes.STRING(20),
         allowNull: false
       },
@@ -46,7 +46,7 @@ export const initializeCarsModel = (sequelizeInstance: any) => {
       }
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize: sequelize,
       tableName: 'Cars'
     }
   );

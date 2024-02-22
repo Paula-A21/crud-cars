@@ -1,4 +1,4 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes } from 'sequelize';
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, Sequelize } from 'sequelize';
 
 class RentalsModel extends Model<InferAttributes<RentalsModel>, InferCreationAttributes<RentalsModel>> {
     declare id: number;
@@ -6,7 +6,7 @@ class RentalsModel extends Model<InferAttributes<RentalsModel>, InferCreationAtt
     declare returnDate: Date;
 }
 
-export const initializeRentalsModel = (sequelizeInstance: any) => {
+export const initializeRentalsModel = (sequelize: Sequelize): void => {
   
     RentalsModel.init(
     {
@@ -25,7 +25,7 @@ export const initializeRentalsModel = (sequelizeInstance: any) => {
         }
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize: sequelize,
       tableName: 'Rentals'
     }
     );
