@@ -29,7 +29,7 @@ export const initializeCarsModel = (sequelize: Sequelize): void => {
         allowNull: false,
       },
       carYear: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
         allowNull: false
       },
       carColor: {

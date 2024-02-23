@@ -44,7 +44,7 @@ export class CarsController {
         try {
             const carId = req.params.id;
             await this.carsRepository.deleteCar(carId);
-            res.status(204).send('Car deleted successfully');
+            res.status(204);
         } catch (error) {
             res.status(500).send(`Error deleting car: ${(error as Error).message}`);
         }

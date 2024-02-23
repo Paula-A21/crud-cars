@@ -18,7 +18,6 @@ export function CarsPostgresRepository(db: IDbConnection): ICarsRepository {
             if(!NEW_CAR) throw new Error('The car could not be created');
 
             await db.models.CarsModel.create(NEW_CAR);
-            console.log(NEW_CAR);
             
             return NEW_CAR;
         },
@@ -37,7 +36,7 @@ export function CarsPostgresRepository(db: IDbConnection): ICarsRepository {
             await CAR.update(updateCarDto);
 
             const UPDATED_CAR = await db.models.CarsModel.findByPk(carId);
-            
+
             return UPDATED_CAR;
         },
         async deleteCar(carId: string): Promise<void> {
