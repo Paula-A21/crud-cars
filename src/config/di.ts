@@ -1,19 +1,20 @@
-import { DbConnection, buildSequelizeConnection } from '../models/config/sequelizeConfig';
-import { ProviderCarRepository } from '../repositories/CarRepositoryProvider';
-import { CarService } from '../services/CarService';
-import { CarsController } from '../controllers/CarsController';
+import { CarsPostgresRepository } from '../module/cars/infrastructure/domain/repositories/CarsPostgresRepository';
+import { CarsService } from '../module/cars/service/CarsService';
+import { CarsController } from '../module/cars/controller/CarsController';
 import { DIContainer } from 'rsdi';
+import { IDbConnection, buildSequelizeConnection } from './sequelizeConfig';
 
 export type AppDIContainer = ReturnType<typeof configureDI>;
 
 export default function configureDI() {
     return new DIContainer()
         .add('dbConnection', buildSequelizeConnection)
-        .add('carRepository', ({ dbConnection }: { dbConnection: DbConnection }) =>
-            ProviderCarRepository(dbConnection),
+        .add('carsRepository', ({ dbConnection }: { dbConnection: IDbConnection }) =>
+            CarsPostgresRepository(dbConnection),
         )
-        .add('carService', ({ carRepository }) => new CarService(carRepository))
-        .add('carsController', ({ carService, carRepository }) =>
-            CarsController(carService, carRepository),
-        );
+        .add('carsService', ({ carsRepository }) => new CarsService(carsRepository))
+        .add('carsController', ({ carsService, carsRepository }) => {
+            return new CarsController(carsService, carsRepository);
+        });       
+
 }
