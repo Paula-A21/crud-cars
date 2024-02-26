@@ -18,7 +18,7 @@ export class CarsController {
             res.status(201).send(newCar);
         } catch (error) {
             if (error instanceof ValidationError) {
-                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+                res.status(400).send(`Error creating car: ${(error as Error).message}`);
             } else {
                 res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
             }
@@ -31,7 +31,7 @@ export class CarsController {
             res.status(200).send(cars);
         } catch (error) {
             if (error instanceof ValidationError) {
-                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+                res.status(404).send(`Error getting cars: ${(error as Error).message}`);
             } else {
                 res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
             }
@@ -45,7 +45,7 @@ export class CarsController {
             res.status(201).send(updatedCar);
         } catch (error) {
             if (error instanceof ValidationError) {
-                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+                res.status(400).send(`Error updating car: ${(error as Error).message}`);
             } else {
                 res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
             }
@@ -59,7 +59,7 @@ export class CarsController {
             res.status(204);
         } catch (error) {
             if (error instanceof ValidationError) {
-                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+                res.status(400).send(`Error deleting car: ${(error as Error).message}`);
             } else {
                 res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
             }

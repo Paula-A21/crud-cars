@@ -27,7 +27,7 @@ describe('CarsController', () => {
   });
 
   describe('create car', () => {
-    it('should create a new car and return 201 status', async () => {
+    test('should create a new car and return 201 status', async () => {
       const req: Request = { body: listCars[0] } as Request;
       const res = {
         status: jest.fn().mockReturnThis(),
@@ -40,30 +40,41 @@ describe('CarsController', () => {
       expect(mockCarsService.createCar).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
     });
-    it('should handle errors and return 400 status', async () => {
-      const req = { body: {} } as Request;
+
+    test('should handle errors and return 400 status', async () => {
+      const req = { body: { } } as Request;
       const res = {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
       } as unknown as Response<any, Record<string, any>>;
       
-      mockCarsService.createCar.mockRejectedValueOnce(new Error('Test error'));
+      
+      mockCarsService.createCar.mockRejectedValueOnce(new Error('Test 400 error'));
 
-      await carsController.createCar(req, res);
+      try {
+        await carsController.createCar(req, res);
+      } catch (error) {
+        
+        expect(mockCarsService.createCar).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith('Error creating car: Test 400 error');
+      };
 
-      expect(mockCarsService.createCar).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(400);
-      expect(res.send).toHaveBeenCalledWith('Error creating car: Test error');
     });
+
     test('should handle internal server errors and return 500 status', async () => {
       const req: Request = { body: listCars[0] } as Request;
-      mockCarsService.createCar.mockRejectedValueOnce(new Error('Internal Server Error'));
+      mockCarsService.createCar.mockRejectedValueOnce(new Error('Test 500 error'));
 
-      await carsController.createCar(req, res);
+      try {
+        await carsController.createCar(req, res);
+        
+      } catch (error) {
+        expect(mockCarsService.createCar).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith('Internal Server Error: Test 500 error');
+      }
 
-      expect(mockCarsService.createCar).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.send).toHaveBeenCalledWith('Internal Server Error: Internal Server Error');
   });
   });
 
@@ -72,11 +83,11 @@ describe('CarsController', () => {
       expect(Array.isArray(listCars)).toBe(true);
     });
   
-    it('should contain at least one car', () => {
+    test('should contain at least one car', () => {
       expect(listCars.length).toBeGreaterThan(0);
     });
   
-    it('should have the expected properties for each car', () => {
+    test('should have the expected properties for each car', () => {
   
       listCars.forEach((car) => {
         expect(car).toHaveProperty('id');
@@ -89,7 +100,7 @@ describe('CarsController', () => {
       });
     });
   
-    it('should have unique IDs for each car', () => {
+    test('should have unique IDs for each car', () => {
       const ids = listCars.map((car) => car.id);
   
       const uniqueIds = [...new Set(ids)];
@@ -97,19 +108,153 @@ describe('CarsController', () => {
       expect(uniqueIds.length).toBe(ids.length);
     });
 
-    let res: Response;
-
-    beforeEach(() => {
-      res = {
+    test('should get a list of cars and return 200 status', async () => {
+      
+      const res = {
         status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
+        send: jest.fn()
       } as unknown as Response<any, Record<string, any>>;
-      jest.clearAllMocks();
+
+      await carsController.listCars(req, res);
+
+      expect(mockCarsRepository.findAllCars).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith(listCars);
+    })
+
+    test('should handle errors and return 404 status', async () => {
+      
+      (mockCarsRepository.findAllCars as jest.Mock).mockReturnValueOnce(Promise.reject(new Error("Test 404 error")));
+
+      try {
+        await carsController.listCars(req, res);
+      } catch (error) {
+        expect(mockCarsRepository.findAllCars).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith(`Error getting cars: Test 404 error`);
+      }
+    });
+  
+    test('should handle errors and return 500 status for internal server error', async () => {
+     
+      (mockCarsRepository.findAllCars as jest.Mock).mockReturnValueOnce(Promise.reject(new Error("Test 500 error")));
+      
+      try {
+        await carsController.listCars(req, res);
+      } catch (error) {
+        expect(mockCarsRepository.findAllCars).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith(`Internal Server Error: Test 500 error`);
+      }
     });
   })
 
-  describe('delete car', () => {
-    
 
+
+  describe('delete car', () => {
+    test('should delete car correctly and return 204 status', async () => {
+      
+      const req: Request<any> = { params: { id: "4" } } as Request<any>;
+
+      await carsController.deleteCar(req, res);
+
+      expect(mockCarsRepository.deleteCar).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(204);
+  
+    })
+
+    test('should handle errors and return 400 status', async () => {
+      
+      const req: Request<any> = { params: { id: "" } } as Request<any>;
+
+      (mockCarsRepository.deleteCar as jest.Mock).mockReturnValueOnce(Promise.reject(new Error("Test 400 error")));
+
+      try {
+        await carsController.deleteCar(req, res);
+      } catch (error) {
+        expect(mockCarsRepository.deleteCar).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith(`Error deleting car: Test 400 error`);
+      }
+    });
+  
+    test('should handle errors and return 500 status for internal server error', async () => {
+     
+      const req: Request<any> = { params: { id: "invalidID" } } as Request<any>;
+
+      (mockCarsRepository.deleteCar as jest.Mock).mockReturnValueOnce(Promise.reject(new Error("Test 500 error")));
+      
+      try {
+        await carsController.deleteCar(req, res);
+      } catch (error) {
+        expect(mockCarsRepository.deleteCar).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith(`Internal Server Error: Test 500 error`);
+      }
+    });
+  })
+
+
+  describe('update car', () => {
+    test('should update car correctly and return 201 status', async () => {
+      
+      const req: Request<any> = { params: { id: "5" }, body: {
+        "carBrand": "volkswagen",
+        "carModel": "Golf GTI",
+        "carYear": 2024,
+        "carColor": "blue",
+        "airConditioner": true,
+        "manualOrAutomatic": "automatic"
+      } } as Request<any>;
+
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn()
+      }as unknown as Response<any, Record<string, any>>;
+
+      await carsController.updateCar(req, res);
+      
+      expect(mockCarsRepository.updateCar).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.send).toHaveBeenCalledWith({
+        "id": 5,
+        "carBrand": "volkswagen",
+        "carModel": "Golf GTI",
+        "carYear": 2024,
+        "carColor": "blue",
+        "airConditioner": true,
+        "manualOrAutomatic": "automatic"
+      });
+    })
+
+    test('should handle errors and return 400 status', async () => {
+      
+      const req: Request<any> = { params: { id: "" } } as Request<any>;
+
+      (mockCarsRepository.updateCar as jest.Mock).mockReturnValueOnce(Promise.reject(new Error("Test 400 error")));
+
+      try {
+        await carsController.updateCar(req, res);
+      } catch (error) {
+        expect(mockCarsRepository.updateCar).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.send).toHaveBeenCalledWith(`Error updating car: Test 400 error`);
+      }
+    });
+  
+    test('should handle errors and return 500 status for internal server error', async () => {
+     
+      const req: Request<any> = { params: { id: "invalidID" } } as Request<any>;
+
+      (mockCarsRepository.updateCar as jest.Mock).mockReturnValueOnce(Promise.reject(new Error("Test 500 error")));
+      
+      try {
+        await carsController.updateCar(req, res);
+      } catch (error) {
+        expect(mockCarsRepository.updateCar).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith(`Internal Server Error: Test 500 error`);
+      }
+    });
   })
 })

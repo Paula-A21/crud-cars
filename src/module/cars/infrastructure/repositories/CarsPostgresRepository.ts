@@ -1,7 +1,7 @@
 import { CarsEntity } from '../../domain/CarsEntity';
-import { IUpdateCarDto } from '../../types/IupdateCarDto';
 import { IDbConnection } from '../../../../config/sequelizeConfig';
 import { ICarsRepository } from './ICarsRepository';
+import { IUpdateCarDto } from '../../types/IUpdateCarDto';
 
 export function CarsPostgresRepository(db: IDbConnection): ICarsRepository {
     const mapModelToEntity = (model: any): CarsEntity => {
@@ -41,6 +41,8 @@ export function CarsPostgresRepository(db: IDbConnection): ICarsRepository {
             return carsEntities;
         },
         async updateCar(carId: string, updateCarDto: IUpdateCarDto): Promise<CarsEntity> {
+            if(!carId) throw new Error('Id car can not be empty');
+
             const car = await db.models.CarsModel.findByPk(carId);
 
             if (!car) throw new Error('Car not found');
@@ -52,6 +54,8 @@ export function CarsPostgresRepository(db: IDbConnection): ICarsRepository {
             return updatedCarEntity;
         },
         async deleteCar(carId: string): Promise<void> {
+            if(!carId) throw new Error('Id car can not be empty');
+            
             const car = await db.models.CarsModel.findByPk(carId);
 
             if (!car) throw new Error('Car not found');
