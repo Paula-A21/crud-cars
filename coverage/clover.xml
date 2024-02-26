@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1708972544538" clover="3.2.0">
-  <project timestamp="1708972544538" name="All files">
-    <metrics statements="35" coveredstatements="31" conditionals="8" coveredconditionals="4" methods="7" coveredmethods="7" elements="50" coveredelements="42" complexity="0" loc="35" ncloc="35" packages="2" files="2" classes="2"/>
+<coverage generated="1708975442866" clover="3.2.0">
+  <project timestamp="1708975442867" name="All files">
+    <metrics statements="36" coveredstatements="32" conditionals="8" coveredconditionals="4" methods="8" coveredmethods="8" elements="52" coveredelements="44" complexity="0" loc="36" ncloc="36" packages="2" files="2" classes="2"/>
     <package name="__tests__.mocks">
-      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="carMocks.ts" path="C:\Users\elpib\Desktop\Pau\Bigger\crud-cars\src\__tests__\mocks\carMocks.ts">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="69" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
       </file>
     </package>
     <package name="module.cars.controller">

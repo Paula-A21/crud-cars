@@ -32,15 +32,6 @@ export const listCars: CarsEntity[] = [
 	},
 	{
 		id: 4,
-		carBrand: "peugeot",
-		carModel: "SUV 3008",
-		carYear: 2020,
-		carColor: "black",
-		airConditioner: false,
-		manualOrAutomatic: "manual"
-	},
-	{
-		id: 5,
 		carBrand: "renault",
 		carModel: "comol",
 		carYear: 1997,
@@ -55,7 +46,7 @@ export const mockCarsRepository: ICarsRepository = {
 	createCar: jest.fn(),
 	findAllCars: jest.fn(() => Promise.resolve(listCars)),
 	updateCar: jest.fn(() => Promise.resolve({
-		id: 5,
+		id: 4,
         carBrand: "volkswagen",
         carModel: "Golf GTI",
         carYear: 2024,
@@ -68,5 +59,13 @@ export const mockCarsRepository: ICarsRepository = {
   
 export const mockCarsService: jest.Mocked<CarsService> = {
 	carsRepository: mockCarsRepository,
-	createCar: jest.fn(),
+	createCar: jest.fn((carsEntity: CarsEntity) => Promise.resolve({
+		id: 5,
+		carBrand: "volkswagen",
+		carModel: "Golf GTI",
+		carYear: 2024,
+		carColor: "blue",
+		airConditioner: true,
+		manualOrAutomatic: "automatic"
+	  }))	  
 };

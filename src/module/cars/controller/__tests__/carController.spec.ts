@@ -28,7 +28,14 @@ describe('CarsController', () => {
 
   describe('create car', () => {
     test('should create a new car and return 201 status', async () => {
-      const req: Request = { body: listCars[0] } as Request;
+      const req: Request = { body: {
+        "carBrand": "volkswagen",
+        "carModel": "Golf GTI",
+        "carYear": 2024,
+        "carColor": "blue",
+        "airConditioner": true,
+        "manualOrAutomatic": "automatic"
+      } } as Request;
       const res = {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
@@ -39,6 +46,15 @@ describe('CarsController', () => {
 
       expect(mockCarsService.createCar).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.send).toHaveBeenCalledWith({
+        "id": 5,
+        "carBrand": "volkswagen",
+        "carModel": "Golf GTI",
+        "carYear": 2024,
+        "carColor": "blue",
+        "airConditioner": true,
+        "manualOrAutomatic": "automatic"
+      });
     });
 
     test('should handle errors and return 400 status', async () => {
@@ -154,7 +170,7 @@ describe('CarsController', () => {
   describe('delete car', () => {
     test('should delete car correctly and return 204 status', async () => {
       
-      const req: Request<any> = { params: { id: "4" } } as Request<any>;
+      const req: Request<any> = { params: { id: "3" } } as Request<any>;
 
       await carsController.deleteCar(req, res);
 
@@ -198,7 +214,7 @@ describe('CarsController', () => {
   describe('update car', () => {
     test('should update car correctly and return 201 status', async () => {
       
-      const req: Request<any> = { params: { id: "5" }, body: {
+      const req: Request<any> = { params: { id: "4" }, body: {
         "carBrand": "volkswagen",
         "carModel": "Golf GTI",
         "carYear": 2024,
@@ -217,7 +233,7 @@ describe('CarsController', () => {
       expect(mockCarsRepository.updateCar).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.send).toHaveBeenCalledWith({
-        "id": 5,
+        "id": 4,
         "carBrand": "volkswagen",
         "carModel": "Golf GTI",
         "carYear": 2024,
