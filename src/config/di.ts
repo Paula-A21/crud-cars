@@ -1,4 +1,4 @@
-import { CarsPostgresRepository } from '../module/cars/infrastructure/domain/repositories/CarsPostgresRepository';
+import { CarsPostgresRepository } from '../module/cars/infrastructure/repositories/CarsPostgresRepository';
 import { CarsService } from '../module/cars/service/CarsService';
 import { CarsController } from '../module/cars/controller/CarsController';
 import { DIContainer } from 'rsdi';

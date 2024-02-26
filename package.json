@@ -3,7 +3,9 @@
   "type": "module",
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "setupFiles": ["jest-express"],
+  "setupFiles": [
+    "jest-express"
+  ],
   "scripts": {
     "start": "tsx watch main.ts",
     "dev:ts": "ts-node-esm main.ts",

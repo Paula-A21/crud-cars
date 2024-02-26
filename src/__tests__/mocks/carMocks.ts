@@ -1,6 +1,6 @@
 import { CarsService } from "../../module/cars/service/CarsService";
-import { CarEntity } from '../../module/cars/infrastructure/domain/entities/CarsEntity';
-import { ICarsRepository } from "../../module/cars/infrastructure/domain/repositories/CarsRepository";
+// import { CarsEntity } from '../../module/cars/domain/CarsEntity';
+import { ICarsRepository } from "../../module/cars/infrastructure/repositories/ICarsRepository";
 
 export const listCars = [
 	{
