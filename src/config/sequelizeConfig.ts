@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import { SequelizeOptions } from 'sequelize-typescript';
 import { config } from "dotenv";
 
-import CarsModel, { initializeCarsModel } from '../module/cars/infrastructure/domain/entities/CarsModel';
+import CarsModel, { initializeCarsModel } from '../module/cars/infrastructure/entities/CarsModel';
 import ClientsModel, { initializeClientsModel } from '../module/clients/model/ClientsModel';
 import RentalsModel, { initializeRentalsModel } from '../module/rentals/model/RentalsModel';
 

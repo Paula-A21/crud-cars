@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { ICarsRepository } from '../infrastructure/domain/repositories/CarsRepository';
+import { ICarsRepository } from '../infrastructure/repositories/ICarsRepository';
 import { CarsService } from '../service/CarsService';
+import { ValidationError } from 'sequelize';
 
 export class CarsController {
     private carsService: CarsService;
@@ -11,32 +12,43 @@ export class CarsController {
         this.carsRepository = carsRepository;
     }
 
-    async createCar(req: Request, res: Response) {
-        
+    async createCar(req: Request, res: Response) { 
         try {
-            const NEW_CAR = await this.carsService.createCar(req.body);
-            res.status(201).send(NEW_CAR);
+            const newCar = await this.carsService.createCar(req.body);
+            res.status(201).send(newCar);
         } catch (error) {
-            res.status(500).send(`Error creating car: ${(error as Error).message}`);
+            if (error instanceof ValidationError) {
+                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+            } else {
+                res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
+            }
         }
     }
 
     async listCars(req: Request, res: Response) {
         try {
-            const CARS = await this.carsRepository.findAllCars();
-            res.status(200).send(CARS);
+            const cars = await this.carsRepository.findAllCars();
+            res.status(200).send(cars);
         } catch (error) {
-            res.status(500).send(`Error getting cars: ${(error as Error).message}`);
+            if (error instanceof ValidationError) {
+                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+            } else {
+                res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
+            }
         }
     }
 
     async updateCar(req: Request, res: Response) {
         try {
             const carId = req.params.id;
-            const UPDATED_CAR = await this.carsRepository.updateCar(carId, req.body);
-            res.status(201).send(UPDATED_CAR);
+            const updatedCar = await this.carsRepository.updateCar(carId, req.body);
+            res.status(201).send(updatedCar);
         } catch (error) {
-            res.status(500).send(`Error updating car: ${(error as Error).message}`);
+            if (error instanceof ValidationError) {
+                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+            } else {
+                res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
+            }
         }
     }
 
@@ -46,7 +58,11 @@ export class CarsController {
             await this.carsRepository.deleteCar(carId);
             res.status(204);
         } catch (error) {
-            res.status(500).send(`Error deleting car: ${(error as Error).message}`);
+            if (error instanceof ValidationError) {
+                res.status(400).send(`Bad Request: ${(error as Error).message}`);
+            } else {
+                res.status(500).send(`Internal Server Error: ${(error as Error).message}`);
+            }
         }
     }
 }
