@@ -7,5 +7,18 @@ export class CarsEntity {
         public carColor: string,
         public airConditioner: boolean,
         public manualOrAutomatic: string
-    ) {}
+    ) { }
+
+    static fromDatabaseModel(model: any): CarsEntity {
+        return new CarsEntity(
+            model.id,
+            model.carBrand,
+            model.carModel,
+            model.carYear,
+            model.carColor,
+            model.airConditioner,
+            model.manualOrAutomatic
+        );
+
+    }
 }

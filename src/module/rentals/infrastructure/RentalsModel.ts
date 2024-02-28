@@ -4,6 +4,8 @@ class RentalsModel extends Model<InferAttributes<RentalsModel>, InferCreationAtt
     declare id: number;
     declare rentalDate: Date;
     declare returnDate: Date;
+    declare clientId: number;
+    declare carId: number;
 }
 
 export const initializeRentalsModel = (sequelize: Sequelize): void => {
@@ -21,6 +23,14 @@ export const initializeRentalsModel = (sequelize: Sequelize): void => {
         },
         returnDate: {
             type: DataTypes.DATE,
+            allowNull: false,
+        },
+        clientId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        carId: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         }
     },
