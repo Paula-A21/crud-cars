@@ -14,11 +14,9 @@ export function RentalsPostgresRepository(db: IDbConnection): IRentalsRepository
 
             const client = await db.models.ClientsModel.findByPk(rentalsEntity.clientId);
             if (!client) throw new Error('The client was not found');
-            console.log(client, " client");
             
             const car = await db.models.CarsModel.findByPk(rentalsEntity.carId);
             if (!car) throw new Error('The car was not found');
-            console.log(car, " car");
             
             const activeRental = await db.models.RentalsModel.findOne({
                 where: {

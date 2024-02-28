@@ -3,8 +3,6 @@ import { CarsController } from "../CarsController";
 import { Request, Response } from 'express';
 import { mockCarsRepository, mockCarsService, listCars } from '../../../../__tests__/mocks/carMocks';
 
-jest.mock('axios');
-
 const req = {} as Request;
 const res: Response = {} as unknown as Response;
 
@@ -15,7 +13,7 @@ const statusMock = jest.fn().mockReturnValue({ send: sendMock });
 
 const carsController = new CarsController(mockCarsService, mockCarsRepository);
 
-describe('CarsController', () => {
+describe('Cars Controller', () => {
   let res: Response;
 
   beforeEach(() => {

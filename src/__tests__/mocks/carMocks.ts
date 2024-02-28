@@ -41,22 +41,39 @@ export const listCars: CarsEntity[] = [
 	}
 ]
 
+export const newCar: CarsEntity = {
+	id: 5,
+	carBrand: "volkswagen",
+	carModel: "Golf GTI",
+	carYear: 2024,
+	carColor: "blue",
+	airConditioner: true,
+	manualOrAutomatic: "automatic"
+}
 
 export const mockCarsRepository: ICarsRepository = {
-	createCar: jest.fn(),
+	createCar: jest.fn(() => Promise.resolve({
+		id: 5,
+		carBrand: "volkswagen",
+		carModel: "Golf GTI",
+		carYear: 2024,
+		carColor: "blue",
+		airConditioner: true,
+		manualOrAutomatic: "automatic"
+	})),
 	findAllCars: jest.fn(() => Promise.resolve(listCars)),
 	updateCar: jest.fn(() => Promise.resolve({
 		id: 4,
-        carBrand: "volkswagen",
-        carModel: "Golf GTI",
-        carYear: 2024,
-        carColor: "blue",
-        airConditioner: true,
-        manualOrAutomatic: "automatic"
-      })),
+		carBrand: "volkswagen",
+		carModel: "Golf GTI",
+		carYear: 2024,
+		carColor: "blue",
+		airConditioner: true,
+		manualOrAutomatic: "automatic"
+	})),
 	deleteCar: jest.fn(),
-  };
-  
+};
+
 export const mockCarsService: jest.Mocked<CarsService> = {
 	carsRepository: mockCarsRepository,
 	createCar: jest.fn((carsEntity: CarsEntity) => Promise.resolve({
@@ -67,5 +84,7 @@ export const mockCarsService: jest.Mocked<CarsService> = {
 		carColor: "blue",
 		airConditioner: true,
 		manualOrAutomatic: "automatic"
-	  }))	  
+	}))
 };
+
+
