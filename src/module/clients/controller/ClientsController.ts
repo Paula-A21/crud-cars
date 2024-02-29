@@ -45,7 +45,7 @@ export class ClientsController {
 
             const updatedClient = await this.clientsRepository.updateClient(clientId, req.body);
             
-            res.send(updatedClient);
+            res.status(201).send(updatedClient);
 
         } catch (error) {
             if (error instanceof ValidationError) {

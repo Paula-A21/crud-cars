@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for module/cars/service/CarsService.ts</title>
+    <title>Code coverage report for module/clients/service/ClientsService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">module/cars/service</a> CarsService.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">module/clients/service</a> ClientsService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -72,8 +72,7 @@
 <a name='L7'></a><a href='#L7'>7</a>
 <a name='L8'></a><a href='#L8'>8</a>
 <a name='L9'></a><a href='#L9'>9</a>
-<a name='L10'></a><a href='#L10'>10</a>
-<a name='L11'></a><a href='#L11'>11</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L10'></a><a href='#L10'>10</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -82,18 +81,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { CarsEntity } from '../domain/CarsEntity';
-import { ICarsRepository } from '../infrastructure/repositories/ICarsRepository';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ClientsEntity } from "../domain/ClientsEntity";
+import { IClientsRepository } from "../infrastructure/repositories/IClientsRepository";
 &nbsp;
-export class CarsService {
-    public constructor(public readonly carsRepository: ICarsRepository) { }
+export class ClientsService {
+    public constructor(public readonly clientsRepository: IClientsRepository) { }
 &nbsp;
-    public async createCar(carsEntity: CarsEntity): Promise&lt;CarsEntity&gt; {
-        return await this.carsRepository.createCar(carsEntity);
+    public async createClient(clientsEntity: ClientsEntity): Promise&lt;ClientsEntity&gt; {
+        return await this.clientsRepository.createClient(clientsEntity);
     }
-}
-&nbsp;</pre></td></tr></table></pre>
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
