@@ -3,8 +3,8 @@ import { SequelizeOptions } from 'sequelize-typescript';
 import { config } from "dotenv";
 
 import CarsModel, { initializeCarsModel } from '../module/cars/infrastructure/CarsModel';
-import ClientsModel, { initializeClientsModel } from '../module/clients/model/ClientsModel';
-import RentalsModel, { initializeRentalsModel } from '../module/rentals/model/RentalsModel';
+import ClientsModel, { initializeClientsModel } from '../module/clients/infrastructure/ClientsModel';
+import RentalsModel, { initializeRentalsModel } from '../module/rentals/infrastructure/RentalsModel';
 
 config();
 
